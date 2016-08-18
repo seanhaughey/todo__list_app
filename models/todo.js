@@ -6,6 +6,6 @@ var todoSchema = {
   userId: String
 };
 
-const Todo = monoose.model('Todo', todoSchema);
+const Todo = mongoose.model('Todo', todoSchema);
 
 module.exports = Todo;
