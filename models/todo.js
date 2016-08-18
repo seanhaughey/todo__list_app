@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 var todoSchema = {
   task: String,
-  completed: Boolean,
+  completed: { type: Boolean, default: false },
   userId: String
 };
 
