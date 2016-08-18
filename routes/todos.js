@@ -48,4 +48,25 @@ router.delete('/:todoId', (req, res, next) => {
   })
 });
 
+router.put('/:todoId', (req, res, next) => {
+  Todo.findByIdAndUpdate(req.params.todoId, {
+   $set: {
+     task: req.body.task,
+     completed: req.body.completed
+   }
+ }, function (err, todo) {
+   if (err) {
+     res.status(500).send();
+   } else {
+     if (todo) {
+       Todo.findById(req.params.todoId, function (err, updatedTodo) {
+         res.json(updatedTodo);
+       })
+     } else {
+       res.status(404).send();
+     }
+   }
+ })
+});
+
 module.exports = router;
