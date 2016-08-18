@@ -1,6 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var Todo = require('../models/todo');
+var _ = require('lodash');
+
+router.use(function (req, res, next) {
+  req.body = _.pick(req.body, ['task', 'completed']);
+  next();
+})
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -14,7 +20,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', (req, res, next) => {
-  const todo = new Todo({ task: req.body.task });
+  const todo = new Todo(req.body)
   todo.save(function (err) {
     if (err){
       res.status(500).send()
@@ -49,12 +55,7 @@ router.delete('/:todoId', (req, res, next) => {
 });
 
 router.put('/:todoId', (req, res, next) => {
-  Todo.findByIdAndUpdate(req.params.todoId, {
-   $set: {
-     task: req.body.task,
-     completed: req.body.completed
-   }
- }, function (err, todo) {
+  Todo.findByIdAndUpdate(req.params.todoId, { $set: req.body }, function (err, todo) {
    if (err) {
      res.status(500).send();
    } else {
