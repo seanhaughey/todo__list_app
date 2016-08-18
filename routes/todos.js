@@ -38,4 +38,14 @@ router.get('/:todoId', (req, res, next) => {
   })
 });
 
+router.delete('/:todoId', (req, res, next) => {
+  Todo.findById(req.params.todoId).remove(function (err) {
+    if (err) {
+      res.status(500).send();
+    } else {
+      res.status(204).send();
+    }
+  })
+});
+
 module.exports = router;
