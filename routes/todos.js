@@ -24,4 +24,18 @@ router.post('/', (req, res, next) => {
   })
 });
 
+router.get('/:todoId', (req, res, next) => {
+  Todo.findById(req.params.todoId, function (err, todo) {
+    if (err) {
+      res.status(500).send();
+    } else {
+      if (todo) {
+        res.json(todo);
+      } else {
+        res.status(404).send();
+      }
+    }
+  })
+});
+
 module.exports = router;
